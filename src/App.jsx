@@ -7,6 +7,7 @@ import {
 import {Container} from './styles/styleGlobal'
 import {Register} from './modules/Register'
 import {Login} from './modules/Login'
+import {Main} from './modules/Main'
 
 
 
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path="/content" element={<Main/>}/>
         </Routes>
       </Router>
     </>
