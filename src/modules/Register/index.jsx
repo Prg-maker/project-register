@@ -19,26 +19,54 @@ export function Register(){
   const [email , setEmail] = useState('')
   const navigation = useNavigate()
 
+  
 
   async function handleClickRegister(event){
     event.preventDefault()
     
     if(name == '' || password == '' || email == ''  ){
-      return swal('erro, name, password or email is value null')
+      return swal('erro, name, password or email is not value null')
     }
+
+      let validate = /\S+@\S+\.\S+/;
+  
+      if(validate.test(email) == false){
+        return swal('erro, email inválido')
+      }
+   
+      
+
 
 
     if(password.length <= 8){
-      return swal('Erro, main de 8 caracteries')
+      return swal('Erro, a senhatem menos de 8 caracteries')
     }
 
-    /*const response = await api.post('/register' , {
+    if(password.indexOf(' ') >= 0 ){
+      return swal('Erro, senha contém espaço')
+    }
+
+    try{
+      const response = await api.post('/register' , {
       name,
       email,
       password
-    })*/
+      })
 
-    navigation('/')
+      if(!response.data){
+        return swal('Esse usuário já existe')
+      }
+
+      setTimeout(()=> {
+        swal('usuário criado com sucesso')
+        navigation('/')
+      } , 500)
+
+
+    }catch(err){
+      return swal('erro ao criar o usuario ou usuario existe')
+    }
+
   }
 
 
@@ -65,7 +93,7 @@ export function Register(){
             onChange={event => setEmail(event.target.value)}
             value={email}
             type='email'
-            placeholder='example@mail.com'
+            placeholder='example@gmail.com'
           />
           <Label>Password</Label>
           <Input

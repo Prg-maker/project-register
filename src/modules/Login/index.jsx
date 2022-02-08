@@ -1,3 +1,7 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { api } from '../../services/api'
+
 import {
   Wrapper,
   Content,
@@ -9,6 +13,42 @@ import {
 
 
 export function Login(){
+
+
+  const [password , setPassword] = useState('')
+  const [email , setEmail] = useState('')
+  const navigation = useNavigate()
+
+  function handleClickLogin(event){
+    event.preventDefault()
+
+    if(password == '' || email == ''  ){
+      return swal('erro, email ou password estão vazios')
+    }
+
+
+    let validate = /\S+@\S+\.\S+/;
+  
+    if(validate.test(email) == false){
+      return swal('erro, email inválido')
+    }
+
+    if(password.length <= 8){
+      return swal('senha inválido')
+    }
+
+    if(password.indexOf(' ') >= 0 ){
+      return swal('Erro, senha contém espaço')
+    }
+
+    try{
+
+    }catch(err){
+      
+    }
+ 
+  }
+
   return (
     <Wrapper>
       <Content>
@@ -23,16 +63,22 @@ export function Login(){
         
           <Label>Email</Label>
           <Input
+            onChange={event => setEmail(event.target.value)}
+            value={email}
             type='email'
             placeholder='example@mail.com'
           />
           <Label>Password</Label>
           <Input
+            onChange={event => setPassword(event.target.value)}
+            value={password}
             type='password'
             placeholder='at least 8 characteres'
           />
 
-          <Button>Sing up</Button>
+          <Button 
+            onClick={handleClickLogin}
+          >Sing up</Button>
         </FormAction>
 
         <p

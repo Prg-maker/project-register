@@ -9,19 +9,22 @@ class CreateUserServices{
         email
       }
     }) 
-
-    if(!userVerifyExist){
-      const User = await prisma.user.create({
-        data:{
-          name,
-          email,
-          password
-        }
-      })
-      return User
+    try{
+      if(!userVerifyExist){
+        const User = await prisma.user.create({
+          data:{
+            name,
+            email,
+            password
+          }
+        })
+        return User
+      }
+  
+    }catch(err){
+      return 'user exist'
     }
-
-    return 'user exist'
+   
    
   }
 }
