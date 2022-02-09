@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import swal from 'sweetalert'
 import { api } from '../../services/api'
 
 import {
@@ -19,7 +20,7 @@ export function Login(){
   const [email , setEmail] = useState('')
   const navigation = useNavigate()
 
-  function handleClickLogin(event){
+  async function handleClickLogin(event){
     event.preventDefault()
 
     if(password == '' || email == ''  ){
@@ -40,11 +41,25 @@ export function Login(){
     if(password.indexOf(' ') >= 0 ){
       return swal('Erro, senha contém espaço')
     }
+   
 
     try{
+      const response = await api.post('/login' , {
+        email,
+        password
+      })
+
+     
+      if(response.data == 'user not exist'){
+        return swal('email ou password incorretos')
+      
+      }
+      navigation('/content')
+
+      console.log(response.data)
 
     }catch(err){
-      
+      return "erro"
     }
  
   }
